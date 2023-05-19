@@ -59,7 +59,7 @@ def filter_images_by_gender(directory_path, gender,target_directory = r'C:\temp\
     dir_path = Path(directory_path)
 
     # Iterate over the files in the directory
-    for file_path in dir_path.iterdir():
+    for file_path in tqdm(dir_path.iterdir(),total=len(list(dir_path.iterdir()))):
         # Check if the file is an image
         if file_path.is_file() and file_path.suffix in ['.jpg', '.jpeg', '.png']:
             # Detect the gender of the image
@@ -71,9 +71,11 @@ def filter_images_by_gender(directory_path, gender,target_directory = r'C:\temp\
                 target_dir.mkdir(exist_ok=True,parents=True)
 
                 shutil.move(file_path, target_dir, copy_function=shutil.copy2)
-                print(file_path)
+                # print(file_path)
 
 def main(main_dir,result_dir= r'C:\temp\deleatb\male_only_pics'):
+    progress = tqdm()
+    progress.total = len(list(Path(main_dir).iterdir()))
     for dir in Path(main_dir).iterdir():
         # if dir.is_file() or 'x32gcd' in dir.name: 
         if dir.is_file(): 
@@ -84,6 +86,8 @@ def main(main_dir,result_dir= r'C:\temp\deleatb\male_only_pics'):
             if not existingfp.is_file():
                 filter_images_by_gender(str(dir), 'male',result_dir)
                 existingfp.touch()
+        progress.update()
+    progress.close()
             # dir.rename(dir.with_name(dir.name+'_x32gcd'))
 
 
@@ -91,7 +95,7 @@ def main(main_dir,result_dir= r'C:\temp\deleatb\male_only_pics'):
 if __name__ == '__main__':
     # main(r'C:\temp\trial', r'C:\temp\result')
     # main(r'C:\temp\MO_check',r'C:\dumpinggrounds\stable_diff_dg\source')
-    # main(r'D:\paradise\stuff\new\imageset',r'C:\dumpinggrounds\stable_diff_dg\source')
+    main(r'D:\paradise\stuff\new\imageset',r'C:\dumpinggrounds\stable_diff_dg\source')
     main(r'C:\Heaven\Haven\brothel',r'C:\dumpinggrounds\stable_diff_dg\source')
     # main(r'D:\paradise\stuff\new\imageset')
 # filter_images_by_gender(r'D:\paradise\stuff\new\imageset\CherryPimps 2022-09-26 Charles Dera Charlotte Sins - Bad Girls Get Bad Grades x207', 'male')
