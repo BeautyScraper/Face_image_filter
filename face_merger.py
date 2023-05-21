@@ -11,6 +11,7 @@ def main():
     csv_fp = r"D:\paradise\stuff\dreamboothpg\cropped_faces\face_details.csv"
     target_directory_images = Path(r"D:\paradise\stuff\dreamboothpg\swapped_cf")
     save_directory = Path(r"C:\Games\Sacred2")
+    # save_directory = Path(r"D:\paradise\stuff\dreamboothpg\res")
     cropper.pfb_batch(target_directory_images,save_directory, csv_fp)
     # for img_with_f in target_directory_images.glob('*.jpg'):
     
