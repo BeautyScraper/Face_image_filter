@@ -95,7 +95,7 @@ def main(main_dir,result_dir= r'C:\temp\deleatb\male_only_pics'):
 if __name__ == '__main__':
     # main(r'C:\temp\trial', r'C:\temp\result')
     # main(r'C:\temp\MO_check',r'C:\dumpinggrounds\stable_diff_dg\source')
-    main(r'D:\paradise\stuff\new\imageset',r'C:\dumpinggrounds\stable_diff_dg\source')
+    main(r'D:\paradise\stuff\new\imageset',r'C:\dumpinggrounds\stable_diff_dg\source2')
     main(r'C:\Heaven\Haven\brothel',r'C:\dumpinggrounds\stable_diff_dg\source')
     # main(r'D:\paradise\stuff\new\imageset')
 # filter_images_by_gender(r'D:\paradise\stuff\new\imageset\CherryPimps 2022-09-26 Charles Dera Charlotte Sins - Bad Girls Get Bad Grades x207', 'male')
