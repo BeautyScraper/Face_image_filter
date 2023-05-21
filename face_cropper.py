@@ -2,6 +2,7 @@ import cv2
 import hashlib
 import pandas as pd
 from pathlib import Path
+from tqdm import tqdm
 
 class FaceCropper:
     def __init__(self, cascade_file):
@@ -24,10 +25,20 @@ class FaceCropper:
 
         cropped_images = []
         face_details = []
-        
-        for i, (x, y, w, h) in enumerate(faces):
+        h_fac = 0.30
+        # breakpoint()
+        faces = sorted(faces, key=lambda x: x[2] * x [3], reverse= True)
+        for i, (x1, y1, w1, h1) in enumerate(faces):
+            if w1 * h1 < 70 * 70:
+                break
+            y = max(0, y1 - int(h1 * h_fac))
+            h = h1 + int(h1 * (h_fac + 0.10))
+            increase_pixel = h - w1
+            w_fac = int(increase_pixel / 2)
+            x = max(0, x1 - w_fac)
+            w = w1 + w_fac
             face = image[y:y+h, x:x+w]
-            face = cv2.resize(face, (512, 512))
+            # face = cv2.resize(face, (512, 512))
             sub_dir = save_directory / ip.parent.name
             sub_dir.mkdir(parents=True, exist_ok=True)
             save_path = sub_dir / ip.name
@@ -61,7 +72,7 @@ class FaceCropper:
     def pfb_batch(self,target_directory_images,result_dir,csv_file):
         df = pd.read_csv(csv_file)
         rows_to_delete = []
-        for index, row in df.iterrows():
+        for index, row in tqdm(df.iterrows()):
             face_path =  str(target_directory_images / row['uni_name'])
             original_image = row['source_image']
             x = row['x']
@@ -97,23 +108,26 @@ class FaceCropper:
 
         return original_image
 
-def main():
+def doit_dir(target_dir):
+    
     cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
     cropper = FaceCropper(cascade_file)
-    target_directory_images = Path(r"D:\paradise\stuff\essence\Pictures\HeapOfHoors\champions")
-    target_directory_images = Path(r"C:\Heaven\Haven\brothel\Biwi ne chudte waqt chupke se mera lund Maa ki bur me daal diya sinisterBabes")
+    # target_directory_images = Path(r"D:\paradise\stuff\essence\Pictures\HeapOfHoors\champions")
+    target_directory_images = Path(target_dir)
     save_directory = Path(r"D:\paradise\stuff\dreamboothpg\cropped_faces")
-    for img_with_f in target_directory_images.glob('*.jpg'):
-        try:
+    for img_with_f in tqdm(target_directory_images.glob('*.jpg')):
+        # breakpoint()
+        # try:
             cropper.crop_faces(img_with_f, save_directory)
-        except:
-            continue
-    
+        # except:
 
-    # original_image = cv2.imread(str(image_path))
-    # modified_image = cropper.put_faces_back(original_image, cropped_faces, csv_file)
+            # continue
+def main():
+    target_parent_dir = Path(r'C:\Heaven\Haven\brothel')
+    for dir in target_parent_dir.iterdir():
+        if dir.is_dir():
+            doit_dir(str(dir))
 
-    # Display the modified image
 
 if __name__ == '__main__':
     main()
