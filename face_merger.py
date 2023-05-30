@@ -7,10 +7,12 @@ from face_cropper import FaceCropper
 
 def main():
     cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-    cropper = FaceCropper(cascade_file)
-    csv_fp = r"D:\paradise\stuff\dreamboothpg\cropped_faces\face_details.csv"
-    target_directory_images = Path(r"D:\paradise\stuff\dreamboothpg\swapped_cf")
+    # csv_fp = r"D:\paradise\stuff\dreamboothpg\cropped_faces\face_details.csv"
+    # target_directory_images = Path(r"D:\paradise\stuff\dreamboothpg\swapped_cf")
+    csv_fp = r"C:\dumpinggrounds\stable_diff_dg\source\face_details.csv"
+    target_directory_images = Path(r"C:\Games\Sacred3")
     save_directory = Path(r"C:\Games\Sacred2")
+    cropper = FaceCropper(r"C:\temp")
     # save_directory = Path(r"D:\paradise\stuff\dreamboothpg\res")
     cropper.pfb_batch(target_directory_images,save_directory, csv_fp)
     # for img_with_f in target_directory_images.glob('*.jpg'):
