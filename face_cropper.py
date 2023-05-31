@@ -18,7 +18,7 @@ class FaceCropper:
                 self.fc = set(fp.read().split('\n'))
         else:
             cropped_data_fp.touch()
-        self.fc = set([])
+            self.fc = set([])
         self.fpw = open(cropped_data_fp, 'a+')
 
     def detect_faces(self, image):
@@ -53,6 +53,7 @@ class FaceCropper:
             # breakpoint()
             Path(image_path).unlink()
             return
+        breakpoint()
         faces = [(f.bbox[0],f.bbox[1], f.bbox[2] - f.bbox[0], f.bbox[3] - f.bbox[1]) for f in faces if f.sex == 'F' and f.age > 10]
         # breakpoint()
         if len(faces) <= 0:
@@ -168,12 +169,12 @@ class FaceCropper:
 
 def doit_dir(target_dir):
     
-    cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+    # cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
     cropper = FaceCropper(target_dir)
     # target_directory_images = Path(r"D:\paradise\stuff\essence\Pictures\HeapOfHoors\champions")
     target_directory_images = Path(target_dir)
-    save_directory = Path(r"D:\paradise\stuff\dreamboothpg\cropped_faces")
-    save_directory = Path(r"C:\dumpinggrounds\stable_diff_dg\source")
+    # save_directory = Path(r"D:\paradise\stuff\dreamboothpg\cropped_faces")
+    save_directory = Path(r"C:\dumpinGGrounds\stuff_pg\outputs")
     for img_with_f in tqdm(target_directory_images.glob('*.jpg')):
         # breakpoint()
         # try:
@@ -182,7 +183,7 @@ def doit_dir(target_dir):
 
             # continue
 def main():
-    target_parent_dir = Path(r'C:\Heaven\Haven\brothel')
+    target_parent_dir = Path(r'C:\dumpinGGrounds\stuff_pg\inputs')
     for dir in target_parent_dir.iterdir():
         if dir.is_dir():
             doit_dir(str(dir))
