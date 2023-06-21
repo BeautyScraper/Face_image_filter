@@ -9,9 +9,9 @@ def main():
     cascade_file = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
     # csv_fp = r"D:\paradise\stuff\dreamboothpg\cropped_faces\face_details.csv"
     # target_directory_images = Path(r"D:\paradise\stuff\dreamboothpg\swapped_cf")
-    csv_fp = r"C:\dumpinggrounds\stable_diff_dg\source\face_details.csv"
-    target_directory_images = Path(r"C:\Games\Sacred3")
-    save_directory = Path(r"C:\Games\Sacred2")
+    csv_fp = r"C:\dumpinGGrounds\cropped_faces\face_details.csv"
+    target_directory_images = Path(r"C:\dumpinGGrounds\results-20230615T080448Z-001\results")
+    save_directory = Path(r"C:\Personal\Games\Sacred2")
     cropper = FaceCropper(r"C:\temp")
     # save_directory = Path(r"D:\paradise\stuff\dreamboothpg\res")
     cropper.pfb_batch(target_directory_images,save_directory, csv_fp)

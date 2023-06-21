@@ -53,7 +53,7 @@ class FaceCropper:
             # breakpoint()
             Path(image_path).unlink()
             return
-        breakpoint()
+        # breakpoint()
         faces = [(f.bbox[0],f.bbox[1], f.bbox[2] - f.bbox[0], f.bbox[3] - f.bbox[1]) for f in faces if f.sex == 'F' and f.age > 10]
         # breakpoint()
         if len(faces) <= 0:
@@ -79,10 +79,15 @@ class FaceCropper:
             y = max(0, y1 - int(h1 * h_fac))
             # breakpoint()
             h = h1 + int(h1 * (h_fac + 0.10))
+            if y + h > image.shape[0]:
+                h = image.shape[0] - y
             increase_pixel = h - w1
             w_fac = int(increase_pixel / 2)
             x = max(0, x1 - w_fac)
             w = w1 + 2 * w_fac
+            if x + w > image.shape[1]:
+                h = image.shape[1] - x
+ 
             face = image[y:y+h, x:x+w]
             face = cv2.resize(face, (512, 512))
             sub_dir = save_directory / ip.parent.name
@@ -117,7 +122,7 @@ class FaceCropper:
         self.register_process(image_path)
 
     def pfb_batch(self,target_directory_images,result_dir,csv_file):
-        destination_dir = Path(r'D:\paradise\stuff\new\imageset2')
+        destination_dir = Path(r'C:\dumpinGGrounds\residuelFM')
         df = pd.read_csv(csv_file)
         rows_to_delete = []
         for index, row in tqdm(df.iterrows()):
@@ -159,6 +164,7 @@ class FaceCropper:
                 face_resized = cv2.resize(face_images, (w, h))
                 copy_image[y:y+h, x:x+w] = face_resized
             except:
+                continue
                 breakpoint()
                 return flag
             cv2.imwrite(str(result_dir / rip.name), copy_image)
@@ -174,8 +180,9 @@ def doit_dir(target_dir):
     # target_directory_images = Path(r"D:\paradise\stuff\essence\Pictures\HeapOfHoors\champions")
     target_directory_images = Path(target_dir)
     # save_directory = Path(r"D:\paradise\stuff\dreamboothpg\cropped_faces")
-    save_directory = Path(r"C:\dumpinGGrounds\stuff_pg\outputs")
-    for img_with_f in tqdm(target_directory_images.glob('*.jpg')):
+    save_directory = Path(r"C:\dumpinGGrounds\cropped_faces")
+    imglist = [img for img in target_directory_images.glob('*.jpg') if cropper.should_process(img)]
+    for img_with_f in tqdm(imglist):
         # breakpoint()
         # try:
             cropper.crop_faces(img_with_f, save_directory)
@@ -183,7 +190,7 @@ def doit_dir(target_dir):
 
             # continue
 def main():
-    target_parent_dir = Path(r'C:\dumpinGGrounds\stuff_pg\inputs')
+    target_parent_dir = Path(r'C:\Personal\Games\Fapelo')
     for dir in target_parent_dir.iterdir():
         if dir.is_dir():
             doit_dir(str(dir))
